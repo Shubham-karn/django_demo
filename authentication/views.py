@@ -22,6 +22,7 @@ def register_view(request):
 @ensure_csrf_cookie
 def login_view(request):
     if request.method == 'POST':
+        # print('post data')
         form = UserLoginForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
@@ -29,12 +30,14 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Replace 'home' with your desired homepage URL
+                return HttpResponse('post done sucessfully {}'.format(username))  # Replace 'home' with your desired homepage URL
             else:
-                form.add_error(None, 'Invalid username or password')
+                # form.add_error(None, 'Invalid username or password')
+                errors = form.errors.as_json()
+            return HttpResponseBadRequest(errors)
     else:
         form = UserLoginForm()
-    return render(request, 'login.html', {'form': form})
+    return HttpResponse('post not done sucessfully')
 
 @ensure_csrf_cookie
 def logout_view(request):
