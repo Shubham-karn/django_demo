@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+AUTH_USER_MODEL = "authentication.User"
+AUTHENTICATION_APP_NAME = 'authentication.apps.AuthenticationConfig'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -58,7 +60,6 @@ REST_FRAMEWORK = {
     ),
 }
 
-AUTH_USER_MODEL = "authentication.User"
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),

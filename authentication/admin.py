@@ -1,13 +1,14 @@
+# authentication/admin.py
+
 from django.contrib import admin
-
-# Register your models here.
-# myapp/admin.py
-
 from django.contrib.auth.admin import UserAdmin
 from .models import User
 
 class CustomUserAdmin(UserAdmin):
-    list_display = UserAdmin.list_display + ('is_renter',)
+    # Add the custom field to the "Personal Info" section
+    fieldsets = UserAdmin.fieldsets + (
+        ('Custom Fields', {'fields': ('phone','isRenter','profilePicture','occupation')}),
+    )
 
+# Register the CustomUser model with the CustomUserAdmin class
 admin.site.register(User, CustomUserAdmin)
-
