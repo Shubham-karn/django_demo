@@ -128,7 +128,7 @@ WSGI_APPLICATION = 'hello.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.mysql",
+        "ENGINE": env("DB_TYPE"),
         "NAME": env("DB_NAME"),
         'USER': env("DB_USER"),
         'PASSWORD': env("DB_PASSWORD"),
