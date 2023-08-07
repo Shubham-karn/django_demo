@@ -2,7 +2,8 @@ version: '4.21.1'
 services:
   app:
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     build: .
     volumes:
       - .:/django_demo
@@ -10,11 +11,6 @@ services:
       - 8000:8000
     image: app:django_demo
     container_name: django_container
-    environment:
-      MYSQL_DATABASE: django_demo
-      MYSQL_USER: root
-      MYSQL_PASSWORD: acer
-      MYSQL_HOST: db
     command: python manage.py runserver 0.0.0.0:8000
   db:
     image: mysql:oracle
@@ -24,3 +20,9 @@ services:
 
     volumes:
       - ./data/mysql:/var/lib/mysql
+    
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pacer"]
+      interval: 1s
+      timeout: 0.5s
+      retries: 5
