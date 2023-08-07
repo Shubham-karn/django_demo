@@ -1,6 +1,8 @@
 version: '4.21.1'
 services:
   app:
+    depends_on:
+      - db
     build: .
     volumes:
       - .:/django_demo
@@ -8,14 +10,12 @@ services:
       - 8000:8000
     image: app:django_demo
     container_name: django_container
-    command: python manage.py runserver 0.0.0.0:8000
     environment:
       MYSQL_DATABASE: django_demo
       MYSQL_USER: root
       MYSQL_PASSWORD: acer
       MYSQL_HOST: db
-    depends_on:
-      - db
+    command: python manage.py runserver 0.0.0.0:8000
   db:
     image: mysql:oracle
     environment:
