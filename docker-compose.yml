@@ -1,9 +1,6 @@
 version: '4.21.1'
 services:
   app:
-    depends_on:
-      db:
-        condition: service_healthy
     build: .
     volumes:
       - .:/django_demo
@@ -11,18 +8,20 @@ services:
       - 8000:8000
     image: app:django_demo
     container_name: django_container
-    command: python manage.py runserver 0.0.0.0:8000
-  db:
-    image: mysql:oracle
-    environment:
-      MYSQL_ROOT_PASSWORD: acer
-      MYSQL_DATABASE: django_demo
-
-    volumes:
-      - ./data/mysql:/var/lib/mysql
+    command: gunicorn -c gunicorn.py hello.wsgi:application
+    # - python3 manage.py runserver
     
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pacer"]
-      interval: 1s
-      timeout: 0.5s
-      retries: 5
+  # db:
+  #   image: mysql:oracle
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: acer
+  #     MYSQL_DATABASE: django_demo
+
+  #   volumes:
+  #     - ./data/mysql:/var/lib/mysql
+    
+  #   healthcheck:
+  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pacer"]
+  #     interval: 5s
+  #     timeout: 5s
+  #     retries: 5
