@@ -1,0 +1,9 @@
+version: '4.21.1'
+
+services:
+  app:
+    image: shubhamkarn/django_demo:latest 
+    container_name: django_container
+    ports:
+      - "8000:8000"
+    command: gunicorn -c gunicorn.py hello.wsgi:application
