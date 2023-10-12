@@ -4,9 +4,16 @@ services:
     build: .
     volumes:
       - .:/django_demo
-    ports:
-      - 8000:8000
     image: app:django_demo
     container_name: django_container
-    command: gunicorn -c gunicorn.py hello.wsgi:application
+    # command: gunicorn -c gunicorn.py hello.wsgi:application
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d
+    depends_on:
+      - app

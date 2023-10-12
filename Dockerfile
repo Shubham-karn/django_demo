@@ -4,8 +4,10 @@ WORKDIR /django_demo
 
 RUN apt-get update
 
-COPY  requirements.txt requirements.txt
+COPY  . .
 RUN pip3 install -r requirements.txt
 RUN pip3 install gunicorn
 RUN pip3 install psycopg2-binary
+
+
 
