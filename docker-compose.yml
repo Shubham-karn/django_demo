@@ -1,12 +1,29 @@
-version: '4.21.1'
+version: '3'
 services:
-  app:
-    build: .
-    volumes:
-      - .:/django_demo
-    ports:
-      - 8000:8000
-    image: app:django_demo
+  djangoapp:
+    image: shubhamkarn/django_demo:1.0
     container_name: django_container
-    command: gunicorn -c gunicorn.py hello.wsgi:application
-    
+    expose:
+      - 8000  # Expose the Gunicorn service internally (used by Nginx)
+    environment:
+      - DEBUG=True
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "4", "hello.wsgi:application"]
+    # command: python3 manage.py runserver
+    networks:
+      - my_network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"  # Map Nginx's port 80 to the host's port 80
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/default.conf  # Replace with the path to your Nginx configuration
+    depends_on:
+      - djangoapp
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    external: true # Use the default Docker bridge network
