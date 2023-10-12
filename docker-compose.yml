@@ -9,19 +9,4 @@ services:
     image: app:django_demo
     container_name: django_container
     command: gunicorn -c gunicorn.py hello.wsgi:application
-    # - python3 manage.py runserver
-    
-  # db:
-  #   image: mysql:oracle
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: acer
-  #     MYSQL_DATABASE: django_demo
 
-  #   volumes:
-  #     - ./data/mysql:/var/lib/mysql
-    
-  #   healthcheck:
-  #     test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pacer"]
-  #     interval: 5s
-  #     timeout: 5s
-  #     retries: 5
